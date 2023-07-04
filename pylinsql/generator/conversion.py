@@ -5,6 +5,7 @@ import re
 import typing
 import uuid
 from dataclasses import dataclass
+from ipaddress import IPv4Address, IPv6Address
 from typing import Any, List, Optional, Tuple, Type, TypeVar
 
 from strong_typing.auxiliary import (
@@ -257,6 +258,8 @@ def python_to_sql_type(typ: type, compact: bool = False, custom: bool = True) ->
         return "interval"
     if typ is uuid.UUID:
         return "uuid"
+    if typ is IPv4Address or typ is IPv6Address:
+        return "inet"
 
     metadata = getattr(typ, "__metadata__", None)
     if metadata is not None:
